@@ -21,7 +21,7 @@ WORKDIR /app
 ENV PYTHONUNBUFFERED="True"
 
 # Default HTTP port
-EXPOSE 8080/tcp
+EXPOSE 4000/tcp
 
 # Install LiteLLM proxy
 COPY requirements.txt requirements.txt
@@ -29,6 +29,8 @@ COPY config.yaml config.yaml
 RUN pip install -r requirements.txt && \
     pip cache purge
 
+RUN prisma generate
+
 # Start
 ENTRYPOINT ["litellm"]
-CMD ["--port", "8080", "--config", "config.yaml"]
+CMD ["--port", "4000", "--config", "config.yaml"]
